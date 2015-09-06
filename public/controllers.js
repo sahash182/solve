@@ -63,14 +63,14 @@ angular.module('myApp.controllers', [])
     };
   })
 
-  //POSTS
-  .controller('TodosIndexCtrl', function ($scope, $location, Post, Auth) {
-    Post.query(
+  //User
+  .controller('UsersIndexCtrl', function ($scope, $location, User, Auth) {
+    User.query(
       function(data) {
-        $scope.todos = data
+        $scope.users = data
       },
       function(data) {
-        $location.path('/login');
+        $location.path('/');
       }
     );
 

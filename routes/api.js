@@ -20,15 +20,18 @@ module.exports = function(app) {
 
   // SIGN UP
   app.post('/api/users', function (req, res) {
-    User.createSecure(req.body.email, req.body.password, function(){
-      var profile = {
+    User.createSecure(req.body.username, req.body.email, req.body.password, req.body.image, req.body.desc, function(){
+      var profile = new User({
         email: req.body.email
-      };
+      });
+      console.log("hello" + profile );
+      
 
       // We are sending the profile inside the token
       var token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
 
       res.json({ token: token });
+      
     })
   })
 
@@ -43,6 +46,8 @@ module.exports = function(app) {
         var profile = {
           email: user.email
         };
+        console.log(profile + "hey");
+
 
         // We are sending the profile inside the token
         var token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
@@ -53,51 +58,77 @@ module.exports = function(app) {
   })
   
   // INDEX
-  app.get('/api/posts', requireAuth, function (req, res) {
+  app.get('/api/users', function (req, res) {
     console.log(req.user)
-    Post.find().sort('-created_at').exec(function(err, posts) {
+    User.find().sort('-created_at').exec(function(err, users) {
       if (err) { return res.status(404).send(err) };
-      res.status(200).json(posts); // return all nerds in JSON format
+      res.status(200).json(users); // return all nerds in JSON format
     });
   });
 
-  // CREATE
-  app.post('/api/posts', function (req, res) {
-    var post = new Post({
-        body: req.body.body
-      , room_name: req.body.roomName
-    });
-    console.log(post);
-    post.save(function (err, post) {
-      console.log('post saved')
-      if (err) { return res.send(err) };
-      res.status(201).json(post) 
-    });
-  });
+  //PROFILE
+    // app.get('/api/posts/:id', function (req, res) {
+  //   Post.findById(req.params.id, function(err, post) {
+  //     console.log('blah')
+  //     if (err) { return res.status(404).send(err) };
+  //     res.status(200).json(post); 
+  //   });
+  // });
 
-  // SHOW
-  app.get('/api/posts/:id', function (req, res) {
-    Post.findById(req.params.id, function(err, post) {
-      console.log('blah')
-      if (err) { return res.status(404).send(err) };
-      res.status(200).json(post); 
-    });
-  });
 
-  // UPDATE
-  app.put('/api/posts/:id', function (req, res) {
-    Post.findOneAndUpdate({ _id: req.params.id}, req.query.post, function (err, post) {
-      if (err) { return res.send(err) }
-      res.status(200).json(post)
-    });
-  });
-
-  // DESTROY
-  app.delete('/api/posts/:id', function (req, res) { 
+   // DESTROY
+  app.delete('/api/users/:id', function (req, res) { 
     console.log("hello")
-    Post.findByIdAndRemove(req.params.id, function (err, post) {
+    User.findByIdAndRemove(req.params.id, function (err, user) {
       if (err) { return res.send(err) }
-      res.status(200);
+      res.status(200).json(user);
     });
   });
 }
+// // create new question
+// app.post('/api/users', function (req, res) {
+//   // create new question with data from the body of the request (`req.body`)
+//   // body should contain the question text itself
+//   console.log(req.body);
+//   var newUser = new User({
+//     username: user.username,
+//     email: user.email
+//   });
+
+//   // save new question
+//   newUser.save(function (err, savedUser) {
+//     res.json(savedUser);
+//   });
+// });
+  // // CREATE
+  // app.post('/api/posts', function (req, res) {
+  //   var post = new Post({
+  //       body: req.body.body
+  //     , room_name: req.body.roomName
+  //   });
+  //   console.log(post);
+  //   post.save(function (err, post) {
+  //     console.log('post saved')
+  //     if (err) { return res.send(err) };
+  //     res.status(201).json(post) 
+  //   });
+  // });
+
+  // // SHOW
+  // app.get('/api/posts/:id', function (req, res) {
+  //   Post.findById(req.params.id, function(err, post) {
+  //     console.log('blah')
+  //     if (err) { return res.status(404).send(err) };
+  //     res.status(200).json(post); 
+  //   });
+  // });
+
+  // // UPDATE
+  // app.put('/api/posts/:id', function (req, res) {
+  //   Post.findOneAndUpdate({ _id: req.params.id}, req.query.post, function (err, post) {
+  //     if (err) { return res.send(err) }
+  //     res.status(200).json(post)
+  //   });
+  // });
+
+ 

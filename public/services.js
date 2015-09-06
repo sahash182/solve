@@ -12,6 +12,7 @@ angular.module('myApp.services', [])
   .factory('User', ['$resource', 'HOST', function ($resource, HOST) {
     return $resource(HOST + '/api/users/:id', { id: '@id' }, {
       update: { method: 'PUT' },
+      users: { url: HOST + '/api/users', method: 'GET'},
       sign_up: { url: HOST + '/api/users', method: 'POST', isArray: false },
       login: { url: HOST + '/api/users/login', method: 'POST', isArray: false },
       logout: { url: HOST + '/api/users/logout', method: 'GET', isArray: false }

@@ -1,0 +1,14 @@
+<h3>Mentors</h3>
+  
+<hr>
+<ul class='list-group'>
+  <li ng-repeat="user in users" class='list-group-item'>
+  	<div class="well animated pulse">
+  	<a href="/profile"><img src="{{ user.image }}" width="100px"></a><br>
+    	<h2> {{user.username}}</h2>
+    	<h3>{{ user.desc }}</h3>
+	</div>
+    
+    </a>
+  </li>
+</ul>
