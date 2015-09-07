@@ -6,6 +6,12 @@
 
 angular.module('myApp.controllers', [])
   .controller('MainCtrl', ['$rootScope', '$scope', '$location', 'Auth', function ($rootScope, $scope, $location, Auth) {
+    //check if logged in
+    $scope.$watch( Auth.isLoggedIn, function ( isLoggedIn ) {
+      $scope.isLoggedIn = isLoggedIn;
+      $scope.currentUser = Auth.currentUser();
+      console.log($scope.currentUser);
+    })
     // LOGOUT 
     $scope.logout = function() {
       localStorage.removeItem('jwtToken');
@@ -13,8 +19,12 @@ angular.module('myApp.controllers', [])
       $scope.isLoggedIn = false;
     }
 
-    // CHECK IF LOGGED IN (IF JWT TOKEN PRESENT)
-    $scope.isLoggedIn = Auth.isLoggedIn();
+    // var currentUser;
+    // // CHECK IF LOGGED IN (IF JWT TOKEN PRESENT)
+    // $scope.isLoggedIn = Auth.isLoggedIn();
+    // //current User
+    // $scope.currentUser = Auth.currentUser();
+    // console.log(currentUser);
 
     // ON LOGIN UPDATE NAVBAR
     $rootScope.$on('loggedIn', function () {
@@ -53,7 +63,7 @@ angular.module('myApp.controllers', [])
           console.log(data.token)
           localStorage.setItem("jwtToken", data.token);
           $rootScope.$broadcast('loggedIn'); // TELL THE OTHER CONTROLLERS WE'RE LOGGED IN
-          $location.path('/');
+          $location.path('/profile');
         },
         function (data) {
           var message = "Invalid Email or Password"
@@ -62,6 +72,14 @@ angular.module('myApp.controllers', [])
       );
     };
   })
+
+  // //Profile
+  //   .controller('ProfileCtrl', function ($rootScope, $scope, User, $location, Auth) {
+  //   $scope.currentUser = Auth.currentUser();
+  //   console.log(currentUser);
+    
+  // })
+
 
   //User
   .controller('UsersIndexCtrl', function ($scope, $location, User, Auth) {

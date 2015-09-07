@@ -46,7 +46,6 @@ module.exports = function(app) {
         var profile = {
           email: user.email
         };
-        console.log(profile + "hey");
 
 
         // We are sending the profile inside the token
@@ -67,13 +66,13 @@ module.exports = function(app) {
   });
 
   //PROFILE
-    // app.get('/api/posts/:id', function (req, res) {
-  //   Post.findById(req.params.id, function(err, post) {
-  //     console.log('blah')
-  //     if (err) { return res.status(404).send(err) };
-  //     res.status(200).json(post); 
-  //   });
-  // });
+    app.get('/api/users/:id', function (req, res) {
+    User.findById(req.params.id, function(err, user) {
+      console.log('blah')
+      if (err) { return res.status(404).send(err) };
+      res.status(200).json(user); 
+    });
+  });
 
 
    // DESTROY

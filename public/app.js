@@ -26,6 +26,10 @@ angular.module('myApp', ['ngResource',
         templateUrl: 'templates/sign-up'
       , controller: 'SignUpCtrl'
       })
+      .when('/profile', {
+        templateUrl: 'templates/profile'
+      , controller: 'MainCtrl'
+      })
 
       .otherwise({
         redirectTo: '/'

@@ -26,7 +26,7 @@
           </button>
           <a class="navbar-brand" href="/">solve</a>
           <ul class="nav navbar-nav navbar-left">
-            <li ng-hide='isLoggedIn' ng-cloak><a href="/profile">Profile</a></li>
+            <li ng-show='isLoggedIn' ng-cloak><a href="/profile">Profile</a></li>
           </ul>
         </div>
 
@@ -40,11 +40,11 @@
             <li ng-hide='isLoggedIn' ng-cloak><a href="/login">Login</a></li>
             <li ng-hide='isLoggedIn' ng-cloak><a href="/sign-up">Signup</a></li>
             <li class="dropdown">
-                <li><a href="#" ng-click="logout()">Logout</a></li>
+                <li><a ng-show='isLoggedIn' href="#" ng-click="logout()">Logout</a></li>
               </ul>
             </li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div><!-- /.navbar-collapse --> 
       </div><!-- /.container-fluid -->
     </nav>
     <div ng-view class="container"></div>
